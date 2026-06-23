@@ -1,19 +1,19 @@
 pipeline {
     agent any
     stages {
-        stage('Build Image') {
+        stage('Build API Image') {
             steps {
-                echo 'Construction de la nouvelle image Docker...'
-                sh 'docker build -t wedezed/landing-page-tp3:latest .'
+                echo 'Construction de l\'image NodeJS...'
+                sh 'docker build -t wedezed/nodejs-api-tp3:latest .'
             }
         }
-        stage('Deploy Local') {
+        stage('Deploy API Local') {
             steps {
-                echo 'Déploiement direct sur le serveur AWS...'
+                echo 'Déploiement de l\'API sur le port 3000...'
                 sh '''
-                docker stop landing-page || true
-                docker rm landing-page || true
-                docker run -d --name landing-page -p 80:80 wedezed/landing-page-tp3:latest
+                docker stop nodejs-api || true
+                docker rm nodejs-api || true
+                docker run -d --name nodejs-api -p 3000:3000 wedezed/nodejs-api-tp3:latest
                 '''
             }
         }
